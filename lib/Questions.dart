@@ -4,9 +4,9 @@ class Question{
   String? questionText;
   bool? correctAnswer;
 
-  Question({String? q, bool? a}){
-    q = questionText;
-    a = correctAnswer;
+  Question(String? q, bool? a){
+    questionText = q;
+    correctAnswer = a;
   }
 
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'Brain.dart';
+
+Brain brain = Brain();
 
 void main() => runApp(MyApp());
 
@@ -25,16 +28,6 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-
-
-
-  List<String> questions = [
-    "Are you a Girl",
-    "Are you 18+",
-    "Are you a Computer Expert"
-  ];
-
-  List<bool> answer = [false, true, true];
 
   int correctCount = 0;
   int questionNum = 0;
@@ -69,8 +62,8 @@ class _QuestionPageState extends State<QuestionPage> {
                         child: ListTile(
                           title: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              questions[questionNum],
+                            child:  Text(
+                              brain.getQuestion(questionNum),
                               style:
                                   TextStyle(fontSize: 22, color: Colors.white),
                             ),
@@ -90,7 +83,7 @@ class _QuestionPageState extends State<QuestionPage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      if (answer[questionNum] == true) {
+                      if (brain.getAnswer(questionNum) == true) {
                         correctCount++;
                       }
                       setState(() {
@@ -115,7 +108,7 @@ class _QuestionPageState extends State<QuestionPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      if (answer[questionNum] == false) {
+                      if (brain.getAnswer(questionNum) == false) {
                         correctCount++;
                       }
                       setState(() {
