@@ -28,9 +28,19 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-
-  int correctCount = 0;
-  int questionNum = 0;
+  void checkAnswer(bool userAnswer) {
+    setState(() {
+      if (brain.isFinished()) {
+        print("Finished");
+        brain.reset();
+      } else {
+        if (brain.getAnswer() == userAnswer) {
+          brain.increaseScore();
+        }
+        brain.nextQuestion();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +60,11 @@ class _QuestionPageState extends State<QuestionPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Correct $correctCount",
+                        "Correct ${brain.score}",
                         style:
                             const TextStyle(fontSize: 50, color: Colors.white),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 40,
                       ),
                       Card(
@@ -62,8 +72,8 @@ class _QuestionPageState extends State<QuestionPage> {
                         child: ListTile(
                           title: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child:  Text(
-                              brain.getQuestion(questionNum),
+                            child: Text(
+                              brain.getQuestion(),
                               style:
                                   TextStyle(fontSize: 22, color: Colors.white),
                             ),
@@ -83,12 +93,7 @@ class _QuestionPageState extends State<QuestionPage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      if (brain.getAnswer(questionNum) == true) {
-                        correctCount++;
-                      }
-                      setState(() {
-                        questionNum++;
-                      });
+                      checkAnswer(true);
                     },
                     child: Container(
                       color: Color(0xFF10A19D),
@@ -108,12 +113,7 @@ class _QuestionPageState extends State<QuestionPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      if (brain.getAnswer(questionNum) == false) {
-                        correctCount++;
-                      }
-                      setState(() {
-                        questionNum++;
-                      });
+                      checkAnswer(false);
                     },
                     child: Container(
                       color: Color(0xFFFB2576),
